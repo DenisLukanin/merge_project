@@ -1,0 +1,15 @@
+:root{
+    --font_size: 25px;
+}
+
+*{
+    font-family: var(--font);
+    font-size: var(--font_size);
+}
+.container{
+    max-width: 1320px;
+    padding: 0 10px;
+    margin: 0 auto;
+}
+
+

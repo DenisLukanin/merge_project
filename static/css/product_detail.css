@@ -1,0 +1,35 @@
+[v-cloak]{
+    display: none;
+}
+.flex_vrap {
+    display: flex;
+    align-items: center;
+    margin: 100px 0 0 0;
+    position: relative;
+}
+.delete_icon{
+    position:absolute;
+}
+.decription{
+    max-width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.photo{
+    max-width: 600px;
+    margin: 0 200px 0 0;
+}
+.title {
+    font-size: 30px;
+    font-weight: 700;
+    margin: 0 0 20px;
+}
+.text {
+    text-align: center;
+    margin: 0 0 20px;
+}
+.price {
+    font-size: 30px;
+    font-weight: 700;
+}
