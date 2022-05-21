@@ -35,7 +35,8 @@ class Db {
     }
 
     //Создание таблицы
-    public function create_table(string $name, array $columns){    
+    public function create_table(string $name, array $columns){  
+        // aa($columns) ; 
         $request = "CREATE TABLE $name (".$this->create_columns($columns).");";
         $result = $this->connection->prepare($request);
         $result->execute();
@@ -65,15 +66,17 @@ class Db {
 
     public function insert(string $name, array $value){
         // echo __METHOD__."<br>";
+
         $keys = implode(", ", array_keys($value));
         $keys_placeholder = implode(", ", array_map(fn ($item) => ":".$item, array_keys($value)) );
         
+        aa("insert into $name ($keys) value ($keys_placeholder)");
         $stm = $this->connection->prepare("insert into $name ($keys) value ($keys_placeholder)");
         foreach ($value as $name => $value1){
             $stm->bindValue($name , $value1);
         }
         $stm->execute();
-        // aa( $this->conection->errorInfo());
+        // aa( $this->connection->errorInfo());
 
         return $this->connection->lastInsertId();
     }
@@ -102,5 +105,24 @@ class Db {
     {
         throw new Exception("No unserialize", 1);
         
+    }
+
+    // обновление записи в таблице
+    public function update($table_name, $id, array $new_value){
+        // echo __METHOD__."<br>";
+        $request = "
+            UPDATE $table_name 
+            SET ".$this->set_values($new_value)." 
+            WHERE id = $id
+        ";
+        $state = $this->conection->prepare($request);
+        return $state->execute();
+    }
+    private function set_values(array $values): string{
+        $result = [];
+        foreach ($values as $column => $value){
+            $result[] = "$column = '$value'";
+        }
+        return implode(", " , $result);
     }
 }

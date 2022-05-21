@@ -1,0 +1,15 @@
+Options -Indexes
+
+RewriteEngine On
+
+RewriteCond %{REQUEST_URI} !\?
+RewriteCond %{REQUEST_URI} !\&
+RewriteCond %{REQUEST_URI} !\=
+RewriteCond %{REQUEST_URI} !\.
+RewriteCond %{REQUEST_URI} !.*/$
+RewriteRule ^(.*)$ /$1/ [R=301,L]
+
+
+RewriteCond %{REQUEST_URI} !(^/index.php)
+RewriteCond %{REQUEST_URI} !(^/static/*)
+RewriteRule .* /index.php [L]
