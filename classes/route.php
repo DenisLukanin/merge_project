@@ -22,14 +22,28 @@ class Route {
         foreach($this->rules as $rule) {
             $template_preg = "#^{$rule["url"]}$#";
             $template_matches = preg_match($template_preg, $this->url, $matches);
-
             if($template_matches) {
                 $this->set_params($matches);
                 if($rule["path"]) {
                     include $rule["path"];
                     return;
                 }
+                if($rule["controller"]) {
+                    $this->controller_func_execute($rule["controller"], $rule["action"]);
+                    return;
+                }
             }
+            // throw new Exception("Page not found", 404);
+        }
+    }
+
+    
+    private function controller_func_execute(string $controller, string $action = '') {
+        if(method_exists($controller, $action)){
+            $function = $controller . "::{$action}";
+            call_user_func($function);
+        } else {
+            echo "Такого метода нет";
         }
     }
 

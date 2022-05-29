@@ -40,7 +40,7 @@ Layout::get_instance()->get_static_style();
 //     $product->save();
 // }
 
-$products = new Catalog\Model\Product();
+$products = new Module\Catalog\Model\Product();
 $products_list = $products->find_all();
 
 ?>

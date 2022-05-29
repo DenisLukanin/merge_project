@@ -41,7 +41,7 @@ class Model {
         }
     }
     // создание таблицы
-    function create_table(){
+    public function create_table(){
         // echo __METHOD__."<br>";
         $result = [];
         foreach($this->table_columns as $name => $type){
@@ -99,7 +99,7 @@ class Model {
     }
 
     // показывает значение колонки
-    function __get($name){
+    public function __get($name){
         if (in_array($name, array_keys($this->table_columns))) {    // определена ли такая колонка в таблице
             return  $this->properties[$name];                       // возвращается значение 
         }
@@ -109,7 +109,7 @@ class Model {
 
 
     // устанавливает новое значение колонки 
-    function __set($name, $value){
+    public function __set($name, $value){
         if (in_array($name, array_keys($this->table_columns))) {                                                // определена ли такая колонка в таблице
             if ($this->loaded && $this->properties[$name] != $value){                                    // проверка определен ли id для модели, отличается ли значение от существующего
                                                                                                                 // - имеет ли таблица статус новой   
@@ -123,7 +123,7 @@ class Model {
         }
     }
 
-    function get_json(){
+    public function get_json(){
         return json_encode($this->properties, JSON_UNESCAPED_UNICODE);
     }
 
@@ -148,5 +148,11 @@ class Model {
         return $models;
     }
 
+    // удаление записи
+    public function delete($id){
+        Cache::delete_cache($id);
+        aa($this->db_object->delete($this->table_name,$id));
+        return $this->db_object->delete($this->table_name,$id);
+    }
 
 }
