@@ -11,7 +11,6 @@ class Db {
     const P_KEY = "PRIMARY KEY";
 
     public static function get_instance(): Db {
-        // echo __METHOD__."<br>";
         if (self::$instance === NULL){
 
             self::$instance = new self();
@@ -36,14 +35,12 @@ class Db {
 
     //Создание таблицы
     public function create_table(string $name, array $columns){  
-        // aa($columns) ; 
         $request = "CREATE TABLE $name (".$this->create_columns($columns).");";
         $result = $this->connection->prepare($request);
         $result->execute();
     }
 
     private function create_columns(array $columns): string{
-        // echo __METHOD__."<br>";
         $columns_request = [];
         $columns = array_map(fn ($item) => implode(" " , $item), $columns);
         foreach ($columns as $name => $value){
@@ -65,12 +62,8 @@ class Db {
     // ]
 
     public function insert(string $name, array $value){
-        // echo __METHOD__."<br>";
-
         $keys = implode(", ", array_keys($value));
         $keys_placeholder = implode(", ", array_map(fn ($item) => ":".$item, array_keys($value)) );
-        
-        aa("insert into $name ($keys) value ($keys_placeholder)");
         $stm = $this->connection->prepare("insert into $name ($keys) value ($keys_placeholder)");
         foreach ($value as $name => $value1){
             $stm->bindValue($name , $value1);
@@ -96,20 +89,7 @@ class Db {
         return $result;
     }
 
-    private function __clone()
-    {
-        throw new Exception("No clone", 1);
-        
-    }
-    private function __wakeup()
-    {
-        throw new Exception("No unserialize", 1);
-        
-    }
-
-    // обновление записи в таблице
     public function update($table_name, $id, array $new_value){
-        // echo __METHOD__."<br>";
         $request = "
             UPDATE $table_name 
             SET ".$this->set_values($new_value)." 
@@ -118,6 +98,7 @@ class Db {
         $state = $this->conection->prepare($request);
         return $state->execute();
     }
+
     private function set_values(array $values): string{
         $result = [];
         foreach ($values as $column => $value){
@@ -126,7 +107,6 @@ class Db {
         return implode(", " , $result);
     }
     
-    // удаление записи из таблицы
     function delete($table_name, $id){
         $sql = "
             DELETE
@@ -135,5 +115,17 @@ class Db {
         ";
         $stm = $this->connection->prepare($sql);
         return $stm->execute();
+    }
+    
+
+
+    
+    private function __clone(){
+        throw new Exception("No clone", 1);
+        
+    }
+    public function __wakeup(){
+        throw new Exception("No unserialize", 1);
+        
     }
 }

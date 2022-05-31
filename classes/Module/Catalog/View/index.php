@@ -2,8 +2,6 @@
 
 
 Layout::get_instance()->set_statics(["catalog.css", "delete_product.js", ]);
-Layout::get_instance()->get_static_style();
-
 
 
 
@@ -35,28 +33,28 @@ Layout::get_instance()->get_static_style();
 // ];
 
 // foreach ($content as $value){
-//     $product = new Catalog\Model\Product();
+//     $product = Model::factory(["name" => "product", "module" => "catalog"]);
 //     $product->set($value);
 //     $product->save();
 // }
 
-$products = new Module\Catalog\Model\Product();
-$products_list = $products->find_all();
+$product = Model::factory(["name" => "product", "module" => "catalog"]);
+$products_list = $product->find_all();
 
 ?>
 
 <div class="container">
+    <a href="<?=$product->create_view_url()?>">Создать товар</a>
     <ul class="catalog_list">
         <?php foreach($products_list as $product) {?>
-            
             <li class="catalog_item" product_id="<?= $product->id ?>">
-                <div class="catalog_item_photo" style="background-image: url('<?= $product->photo ?> ');">
-                    <a href="/catalog/<?= $product->id ?>/" class="catalog_item_photo_link">
+                <div class="catalog_item_photo" style="background-image: url('<?= "../" .$product->photo ?> ');">
+                    <a href="/catalog/view/product/<?= $product->id ?>/" class="catalog_item_photo_link">
                     </a>
                     <span class="delete_icon" delete_elem >x</span>
                 </div>
                 <div class="flex_wrap">
-                    <a href="/catalog/<?= $product->id ?>/" class="catalog_item_title_link">
+                    <a href="/catalog/view/product/<?= $product->id ?>/" class="catalog_item_title_link">
                     <h3 class="catalog_item_title"><?= $product->title ?></h3>
                     </a>
                     <span class="catalog_item_price"><?= $product->price ?> р.</span>
@@ -71,5 +69,4 @@ $products_list = $products->find_all();
     
 
 
-    <?php Layout::get_instance()->get_static_script(); ?>
 </div>

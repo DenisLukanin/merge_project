@@ -28,7 +28,6 @@ class Config {
 
     private static function include_config(string $config_name) {
         if(array_key_exists($config_name, self::$config_cache)) {
-            //echo "cache ";
             return self::$config_cache[$config_name];
         }
         else

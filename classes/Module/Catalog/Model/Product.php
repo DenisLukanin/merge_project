@@ -13,12 +13,12 @@ namespace Module\Catalog\Model;
             "title" => [
                 "type" => \Db::T_VARCHAR,
                 "null_default" => \Db::T_NOT_NULL,
-                "lable" => "Заголовок",
+                "label" => "Заголовок",
             ],
             "description" => [
                 "type" => \Db::T_VARCHAR,
                 "null_default" => \Db::T_NULL,
-                "lable" => "Описание",
+                "label" => "Описание",
                 "form_type" => \Db::T_TEXTAREA
             ],
             "photo" => [
@@ -28,7 +28,7 @@ namespace Module\Catalog\Model;
             "price" => [
                 "type" => \Db::T_INT,
                 "null_default" => \Db::T_NOT_NULL,
-                "lable" => "Цена",
+                "label" => "Цена",
             ],
         ];
     }

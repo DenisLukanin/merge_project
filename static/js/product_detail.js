@@ -11,12 +11,13 @@ App.component("product", {
     },
     props: ["product_id"],
     created: function(){
+        console.log(this.product_id)
         fetch("/catalog/rest/product/get/"+ this.product_id +"/")
             .then( response  => response.json())
             .then( product  => {
                 this.id = product["id"],
                 this.title = product["title"],
-                this.photo = "../../"+product["photo"],
+                this.photo = "../../../"+product["photo"],
                 this.price = product["price"],
                 this.description = product["description"]
             });

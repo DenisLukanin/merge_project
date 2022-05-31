@@ -2,11 +2,14 @@
 class Rest {
     private static $matches;
     private static $model;
+
+
+    
     public static function dispatch(){
         self::$matches = \Route::get_instance()->get_params();
-        // $class = '\\module\\' . self::$matches["module"] . "\\" . 'rest' . "\\" . self::$matches["rest"];
-        $class = self::$matches["module"] . "\\" . 'rest' . "\\" . self::$matches["rest"];
+        $class = '\\module\\' . self::$matches["module"] . "\\" . 'rest' . "\\" . self::$matches["rest"];
         $action = "action_" . self::$matches["action"];
+        
         if(class_exists($class)) {
             $rest = new $class;
             if(method_exists($class, $action)) {

@@ -1,24 +1,15 @@
 <?php
 return [
-    
-    // [
-    //     "url" => "/catalog/",
-    //     "path" => "catalog/index.php"
-    // ],
-    // [
-    //     "url" => "/catalog/(?<product_id>[^/]*)/",
-    //     "path" => "catalog/detail.php"
-    // ],
-    // [
-    //     "url" => "/catalog/rest/product/(?<product_id>[^/]*)/",
-    //     "path" => "catalog/rest.php"
-    // ],
-
     [
         'url' => '/(?<module>[^/]*)/rest/(?<rest>[^/]*)/(?<action>[^/]*)/(?<id>[^/]*)/',
         "controller" => "\Rest",
         "action" => "dispatch",
      ],
+     [
+         'url' => '/(?<module>[^/]*)/rest/(?<rest>[^/]*)/(?<action>[^/]*)/',
+         "controller" => "\Rest",
+         "action" => "dispatch",
+      ],
      [
          'url' => '/(?<module>[^/]*)/view/(?<name>[^/]*)/(?<id>[^/]*)/(?<info>[^/]*)/',
          'controller' => '\View',

@@ -9,8 +9,6 @@ spl_autoload_register(function($path){
     }
 }
 );
-
-
 function aa($value){
     echo "<pre>";
     var_dump($value);
@@ -21,7 +19,4 @@ function aar($value){
     print_r($value);
     echo "</pre>";
 };
-
-
-
 ?>

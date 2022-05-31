@@ -5,11 +5,12 @@ class Route {
     private $url;
     private $params = [];
 
+
+
     public static function get_instance(): Route {
         if (self::$instance === null){
             self::$instance = new self();
         }
-        
         return self::$instance;
     }
 
@@ -24,19 +25,14 @@ class Route {
             $template_matches = preg_match($template_preg, $this->url, $matches);
             if($template_matches) {
                 $this->set_params($matches);
-                if($rule["path"]) {
-                    include $rule["path"];
-                    return;
-                }
                 if($rule["controller"]) {
                     $this->controller_func_execute($rule["controller"], $rule["action"]);
                     return;
                 }
             }
-            // throw new Exception("Page not found", 404);
         }
+        throw new Exception("Page not found", 404);
     }
-
     
     private function controller_func_execute(string $controller, string $action = '') {
         if(method_exists($controller, $action)){
@@ -48,7 +44,6 @@ class Route {
     }
 
     private function set_params(array $matches){
-        // echo __METHOD__."<br>";
         foreach($matches as $name => $value){
             if(!is_numeric($name)){
                 $this->params[$name] = $value;
@@ -66,14 +61,15 @@ class Route {
         {
             return $this->params;
         }
-        
     }
 
-    private function __clone() {
+
+
+
+    private function __clone(){
         throw new Exception("No clone", 1);
     }
-    private function __wakeup()
-    {
+    public function __wakeup(){
         throw new Exception("No unserialize", 1);
     }
 }

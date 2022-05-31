@@ -11,15 +11,12 @@ class Layout
             "js",
         ],
     ];
-
-	// массивы со статикой
     private static $list_static = [
         "style" => [],
         "script" => [],
         "fonts" => [],
 
     ];
-
     private static $static_relative_path = DIRECTORY_SEPARATOR. "static".DIRECTORY_SEPARATOR;
 	private static function static_absolute_path() {
         return $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR. "static".DIRECTORY_SEPARATOR;
@@ -27,12 +24,7 @@ class Layout
 
 
 
-
-
-
-
-
-    // Логика создания экземпляра класса*******
+    
     private function __construct(){
         $this->set_static("general/reset.css");
         self::set_fonts(Config::get_config('layout', 'font') ?? 'Cormorant Garamond');
@@ -47,13 +39,6 @@ class Layout
         return self::$instance;
     }
 
-
-
-
-
-    // логика подключения статики******
-    
-
     function get_static_style(){
         foreach(array_unique(self::$list_static['style']) as $link){
             echo '<link rel="stylesheet" href="'.$link.'">';
@@ -63,24 +48,24 @@ class Layout
             echo $link;
         };
     }
+
     function get_static_script(){
         foreach(array_unique(self::$list_static['script']) as $script){
             echo '<script src="'.$script.'"></script>';
         };
     }
+
     function get_static(){
         $this->get_static_style();
         $this->get_static_script();
     }
-
-
 
     public function set_statics(array $paths){
         foreach($paths as $path){
             $this->set_static($path);
         }
     }
-    // определяем скрипт это или стиль
+
     public function set_static($path){
         $path_info = pathinfo($path);  
         foreach(self::$static_type as $type => $extension){
@@ -88,19 +73,13 @@ class Layout
                 if(file_exists(self::static_absolute_path().$path_info['extension']."/".$path)){
                     self::$list_static[$type][] = self::$static_relative_path.$path_info['extension']."/".$path;
                 } else {
-                    // echo 'такого файла нет<br>'; 
+                    throw new Exception("not found static", 500);
                 }
             }
         }
 
     }
 
-
-
-
-
-
-    // подключение шрифта google fonts***********
     private static function set_fonts(string $font_name){
         $font_name_plas = str_replace(" ", "+", trim($font_name));
         self::$list_static["fonts"][$font_name] = '
@@ -119,13 +98,12 @@ class Layout
 
         
 
-    // защита от создания копий объекта*********
-    private function __clone()
-    {
+
+
+    private function __clone(){
         throw new Exception("No clone", 1);
     }
-    private function __wakeup()
-    {
+    public function __wakeup(){
         throw new Exception("No unserialize", 1);
     }
 }
