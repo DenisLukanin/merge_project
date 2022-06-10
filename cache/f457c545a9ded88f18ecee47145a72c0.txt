@@ -1,1 +1,0 @@
-a:10:{s:2:"id";s:2:"49";i:0;s:2:"49";s:5:"title";s:3:"sdf";i:1;s:3:"sdf";s:11:"description";s:5:"fsdfs";i:2;s:5:"fsdfs";s:5:"photo";N;i:3;N;s:5:"price";s:3:"321";i:4;s:3:"321";}
