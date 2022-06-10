@@ -11,6 +11,8 @@ class Model {
     protected $properties_new = [];                  
     protected $module = "";
     protected $model = "";
+    protected $cache_directory = "";
+    
 
 
 
@@ -26,6 +28,7 @@ class Model {
     private function info() {
         $class = get_class($this);
         $info = explode("\\", $class);
+
         foreach($info as $key => $elem) {
             if($elem == "Module") {
                 $this->module = lcfirst($info[++$key]);
@@ -35,6 +38,7 @@ class Model {
             }
 
         }
+        $this->cache_directory = $this->module ."/". $this->model."/";
     }
 
     public static function factory(array $info_about_model) {
@@ -110,7 +114,7 @@ class Model {
 
     protected function update(){
         
-        Cache::delete_cache($this->table_elem_id);
+        Cache::delete($this->table_elem_id, $this->cache_directory);
         $this->db_object->update($this->table_name, $this->table_elem_id, $this->properties_new);     
 
     }
@@ -123,7 +127,7 @@ class Model {
     }
 
     protected function get($id){
-        $cache_data = Cache::caching($id);
+        $cache_data = Cache::get($id, $this->cache_directory);
         if ($cache_data){
             $this->properties = $cache_data;
         } else {
@@ -132,7 +136,7 @@ class Model {
             if($row) {
                 $this->set($row);
             }
-            Cache::caching($id, $row);
+            Cache::set($id, $row, $this->cache_directory);
         }
         
     }
@@ -171,7 +175,7 @@ class Model {
         while($row = $statement->fetch())
         {
             $models[] = new $this($row["id"]);
-            Cache::caching($row["id"], $row);
+            Cache::set($row["id"], $row, $this->cache_directory);
         }
 
         return $models;
@@ -182,12 +186,12 @@ class Model {
         $row = $statement->fetch();
         $models = [];
         $models[] = new $this($row["id"]);
-        Cache::caching($row["id"], $row);
+        Cache::set($row["id"], $row, $this->cache_directory);
         return $models;
     }
 
     public function delete($id){
-        Cache::delete_cache($id);
+        Cache::delete($id, $this->cache_directory);
         aa($this->db_object->delete($this->table_name,$id));
         return $this->db_object->delete($this->table_name,$id);
     }
