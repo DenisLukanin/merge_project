@@ -5,4 +5,4 @@ $name_column = View::get_instance()->name_column;
 ?>
 
 <label for="<?= $form_name ?>"><?= $form_name ?></label>
-<input type="text" name="<?= $name_column ?>" id="<?= $form_name ?>" <?= $required ? "required" : "" ?>>
+<input type="<?= $name_column == "password" || $name_column == "password_confirm" ? "password" : "text" ?>" name="<?= $name_column ?>" id="<?= $name_column ?>" <?= $required ? "required" : "" ?>>

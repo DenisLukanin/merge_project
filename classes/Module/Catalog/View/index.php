@@ -40,6 +40,7 @@ Layout::get_instance()->set_statics(["catalog.css", "delete_product.js", ]);
 
 $product = Model::factory(["name" => "product", "module" => "catalog"]);
 $products_list = $product->find_all();
+$user = Model::factory(["name" => "user", "module" => "user"]);
 
 ?>
 

@@ -140,7 +140,6 @@ class Model {
         }
         
     }
-
     public function set($properties) {
         foreach($properties as $name => $value) {
             $this->$name = $value;
@@ -183,11 +182,10 @@ class Model {
 
     public function find($where = "") {
         $statement = Db::get_instance()->select($this->table_name, $where, 1);
-        $row = $statement->fetch();
-        $models = [];
-        $models[] = new $this($row["id"]);
+        $row = $statement->fetch(PDO::FETCH_ASSOC);
+        $model = new $this($row["id"]);
         Cache::set($row["id"], $row, $this->cache_directory);
-        return $models;
+        return $model;
     }
 
     public function delete($id){
@@ -203,6 +201,9 @@ class Model {
     public function create_rest_url() {
 
         return "/$this->module/rest/$this->model/create/";
+    }
+    public function auth_rest_url() {
+        return "/$this->module/rest/$this->model/auth/";
     }
 
     function get_form_fields(): array{

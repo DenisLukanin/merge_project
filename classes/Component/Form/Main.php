@@ -18,7 +18,7 @@ class Main extends \Component {
                 $types[$name_column]["type"] = $values_column["type"];
             }
             $types[$name_column]["label"] = $values_column["label"];
-            !$values_column["null_default"] == \Db::T_NULL ? $types[$name_column]["required"] = true : $types[$name_column]["required"] = false;
+            $values_column["null_default"] == \Db::T_NULL ? $types[$name_column]["required"] = false : $types[$name_column]["required"] = true;
             $types[$name_column]["name_column"] = $name_column;
         };
         return $types;
