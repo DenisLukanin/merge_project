@@ -120,7 +120,6 @@ class Model {
     }
 
     protected function create(){
-        aa($this->properties);
         $this->table_elem_id = Db::get_instance()->insert($this->table_name, $this->properties);
         
         $this->loaded = true;

@@ -4,18 +4,27 @@ namespace Module\User\Rest;
 
 
 class User{
-    public function action_create(){
-        $columns = $_POST;
-        if($columns["password"] !== $columns["password_confirm"]) {
-            header("Location: /user/view/register");
+    public function action_register(){
+        
+        $columns = (array) json_decode(file_get_contents('php://input'));
+        $model = \Model::factory(["name" => "user", "module" => "user"]);
+        $user = $model->find("login = '". $columns["login"] ."'");
+        if($user->login) {
+            echo json_encode([
+                'success' => 'false'
+            ]);
         } else {
-            $columns["password"] = md5($columns["password"]);
-            $model = \Model::factory(["name" => "user", "module" => "user"]);
-    
+            session_start();
+            $columns["password"] = password_hash($columns["password"],PASSWORD_DEFAULT);
             $model->set($columns);
             $model->save();
-            header("Location: /catalog/view/");
+            $_SESSION["user"]  = $columns["login"];
+            echo json_encode([
+                'success' => 'true',
+                'redirect_url' => \Config::get_config("redirect_form", "register")
+            ]);
         }
+        
     }
     public function action_auth(){
         session_start();

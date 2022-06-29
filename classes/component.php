@@ -28,6 +28,6 @@ class Component {
 
 
     public function render() {
-        echo View::get_instance()->include(self::$view_name, "", self::$component_name);
+        echo self::$view_name ? View::get_instance()->include(self::$view_name, "", self::$component_name) : View::get_instance()->include("index", "", self::$component_name);
     }
 }
