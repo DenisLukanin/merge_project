@@ -1,5 +1,8 @@
 <?php 
-    session_start()
+    if(isset($_COOKIE["auth_cookie"])) {
+        $auth_cookie = Db::get_instance()->select("cookie", "token = '" . $_COOKIE["auth_cookie"]. "'", 1);
+        $auth_user = $auth_cookie->fetch(PDO::FETCH_ASSOC);
+    }
     ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -13,8 +16,8 @@
 <body>
     
 <?php 
-    if($_SESSION["user"]){
-        echo $_SESSION["user"]."<br>";?>
+    if($auth_user["login"]){
+        echo $auth_user["login"]."<br>";?>
 
         <a href="/user/rest/user/logout">Выйти</a>
 

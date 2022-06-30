@@ -95,7 +95,7 @@ class Db {
             SET ".$this->set_values($new_value)." 
             WHERE id = $id
         ";
-        $state = $this->conection->prepare($request);
+        $state = $this->connection->prepare($request);
         return $state->execute();
     }
 

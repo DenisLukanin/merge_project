@@ -1,10 +1,10 @@
 <?php
 $fields = Component\Form\Main::get_field();
 $path_rest = Component\Form\Main::get_target()->auth_rest_url();
+if(!$_COOKIE["auth_cookie"]){
 ?>
-
-
-<form action="<?=$path_rest?>" method="post">
+<div class="error-auth">Неверный логин или пароль</div>
+<div class="auth">
 <?php
     foreach($fields as $field) {
         switch($field["type"]) {
@@ -20,5 +20,12 @@ $path_rest = Component\Form\Main::get_target()->auth_rest_url();
         }
     }
 ?>
-<input type="submit" value="Отправить">
-</form>
+<input auth__button type="submit" value="Отправить">
+</div>
+<?} else {?>
+    <div class="login">Вы уже залогенены</div>
+<? }
+Layout::get_instance()->set_static("auth.js");
+?>
+<!-- 123sanekphp sanekphp@gmail.com -->
+<!-- bOAIXj9uIFVpxUxqk7Ex -->

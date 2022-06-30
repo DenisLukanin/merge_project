@@ -11,7 +11,7 @@ try{
     if (file_exists($error_file_path)){
         include $error_file_path;
     } else {
-        echo "Ошибка не обработана";
+        echo $e;
     }
 }
 
